@@ -1,3 +1,18 @@
+<?php
+    $host="localhost";
+    $username="root";
+    $pass="";
+    $db="uwb";
+    $conn=mysqli_connect($host,$username,$pass,$db);
+    if(!$conn){
+        die("Connection failed: " . mysqli_connect_error());
+    }
+    $sql = "select * from blog order by date ASC";
+    $result = $conn->query($sql) or die($conn->error);
+
+    // session_start();
+   
+     ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +24,7 @@
     <link rel="stylesheet" href="../common_styles/navbar.css">
     <link rel="stylesheet" href="blog-dashboard-style.css">
 </head>
+
 <body>
     <div class="menu_icon flex-col">
         <div class="bars"></div>
@@ -48,12 +64,21 @@
                     <li class="d3 datewise">
                         <div class="older dates">older</div>
                         <div class="older_blogs pending_blogs">
-
-                            <!-- <div class="blog_card flex-col">
-                                <div class="a_ttl">new blogs</div>
-                                <div class="a_det">by <span class="a_name">someone blogger</span>, <span class="a_date">25 december</span></div>
-                                <a href="#rdm">read more</a>
-                            </div> -->
+                            <!-- // Card Format for Outline -->
+                            <?php 
+                            while($row=mysqli_fetch_assoc($result))
+                            {
+                                ?>
+                            <div class="blog_card flex-col">
+                                <div class="a_ttl"><?php echo $row['btitle'] ?></div>
+                                <div class="a_det">by <span class="a_name"><?php echo $row['uname'] ?></span>, <span class="a_date"><?php echo $row['date']?></span></div>
+                                <a href="#pending?id=<?php echo $row['bid']?>">read more</a>
+                            </div>
+                            <?php
+                            }
+                            ?>
+                        </form>
+            
 
                         </div>
                     </li>
@@ -118,17 +143,21 @@
         <div class="sucs inactive2">Success !</div>
         <div class="right_wrap flex-col inactive2">
             <div class="blog_complete flex-col">
+
                 <div class="top flex-col">
                     <div class="ttl_page"></div>
+                    
                     <div class="auth_page">by <span class="authname_page"></span>, <span class="authdate_page"></span></div>
-                    <div class="desc_page">        
-       
-                        
+                    <div class="desc_page">
+                        <?php
+                        if(!isset($_COOKIE["id"])) {
+                        echo $_COOKIE['id'];}
+                        ?>
                     </div>
                 </div>
+                
                 <div class="story_page">
-                    <p class="main_story">
-
+                    <p class="main_story">story
                     </p>
                 </div>
             </div>
