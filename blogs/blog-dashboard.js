@@ -4,6 +4,8 @@ let bl_navigation = document.querySelector('.navigation_bl');
 let date_spans = document.querySelectorAll('.dates');
 let datewise_blogs = document.querySelectorAll('.datewise');
 let pending_blogs = document.querySelectorAll('.pending_blogs');
+// let pending_ttl = document.querySelectorAll('.options button')[0];
+// let reviewed_ttl = document.querySelectorAll('.options button')[1];
 let pending_ttl = document.querySelectorAll('.options a')[0];
 let reviewed_ttl = document.querySelectorAll('.options a')[1];
 let pending_list = document.querySelector('.pending_li');
@@ -19,13 +21,17 @@ let reveal = document.querySelector('#reveal');
 let left_box = document.querySelector('.left');
 let story_box = document.querySelector('.right_wrap');
 let pending_card = document.querySelectorAll('.blog_card');
-let readmores_new = document.querySelectorAll('.blog_card a');
-let readmores_old = document.querySelectorAll('.result_card a');
+let readmores_new = document.querySelectorAll('.blog_card button');
+let readmores_old = document.querySelectorAll('.result_card button');
 let viewed_card = document.querySelectorAll('.result_card');
 let scs_msg = document.querySelector('.sucs');
 let menu_icon = document.querySelector('.menu_icon');
 let select_box = document.querySelector('.select_post_par');
 let cancel_bl = document.querySelector('.cancel_b');
+let rdm = document.querySelectorAll('.blog_card button');
+
+let rdm_1 = document.querySelector('.blog_card button');
+let rdm_2 = document.querySelector('.result_card button');
 
 let add_post_parent = document.querySelector('.add_post_par');
 
@@ -127,6 +133,8 @@ function fix_positions(){
     cn_reject.style.transform = 'translateY(0)';
     rsn_box.style.transform = 'translateX(0)';
     reveal.style.transform = 'rotate(0deg)';
+    approve_btn.style.opacity = '1';
+    reject_btn.style.opacity = '1';
     rvl_flag = 0;
 }
 
@@ -134,6 +142,8 @@ let btn_arr = document.querySelectorAll('.buttons button');
 let rvl_flag = 0;
 function responsive_buttons(){
     if(window.innerWidth<=600){
+        approve_btn.style.opacity = '0';
+        reject_btn.style.opacity = '0';
         if(rvl_flag === 0){
             reject_btn.style.opacity = '1';
             reject_btn.style.transform = 'translateY(-60px)';
@@ -147,6 +157,7 @@ function responsive_buttons(){
             rvl_flag = 1;
         }
         else if(rvl_flag === 1){
+            reject_cancel();
             approve_btn.style.opacity = '0';
             approve_btn.style.transform = 'translateY(0)';
             reject_btn.style.opacity = '0';
@@ -188,11 +199,13 @@ window.addEventListener('load' , function(){
     sethgt();
     show_sel_msg();
     fix_positions();
+    responsive_buttons();
 });
 window.addEventListener('resize' , function(){
     sethgt();
     show_sel_msg();
     fix_positions();
+    responsive_buttons();
 });
 pending_ttl.addEventListener('click', switch_to_list1);
 reviewed_ttl.addEventListener('click', switch_to_list2);
@@ -234,3 +247,16 @@ function toggle_menu(){
 }
 
 menu_icon.addEventListener('click' ,toggle_menu);
+
+
+
+setInterval(() => {
+    if(document.activeElement === rdm_2){
+        switch_to_list2();
+    }
+    if(document.activeElement === rdm_1){
+        switch_to_list1();
+    }
+}, 10);
+
+
